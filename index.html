@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時間の記憶 - 謎解きゲーム</title>
+  <!-- SEO対策用メタタグ -->
+  <meta name="description" content="アクセスした時間によって、異なる手がかりが現れるミステリアスな時間連動型Webサイトです。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <div class="glass-panel">
+      <header>
+        <h1 id="main-title">Chronos Clue</h1>
+        <div class="subtitle" id="main-subtitle">時間連動型謎解きシステム</div>
+      </header>
+
+      <!-- GASから取得した「今の時間用のデータ」のみがここに描画される -->
+      <main id="game-content">
+        <div class="loader-container" id="loader">
+          <div class="clock-loader"></div>
+          <div class="loading-text">時間の破片を収束中...</div>
+        </div>
+      </main>
+
+      <footer>
+        <p>© 2026 Chronos Clue. All Rights Reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
