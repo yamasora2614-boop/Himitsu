@@ -20,11 +20,11 @@ function doGet(e) {
     2: "２．\n□□□□■■□□□□□□□□□□□□□",  // 10分〜14分59秒
     3: "３．\n2026年",  // 15分〜19分59秒
     4: "４．\n■■■■■■■□□□□□",  // 20分〜24分59秒
-    5: "５．\n7文字を導き、特定せよ",  // 25分〜29分59秒
+    5: "５．\nまずは7文字を導き、特定せよ",  // 25分〜29分59秒
     6: "６．\n_____cg",  // 30分〜34分59秒
-    7: "７．\n28日□□■■■□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ᯅ̈.ᐟ",  // 35分〜39分59秒
+    7: "７．\n□□■■■□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ᯅ̈.ᐟ",  // 35分〜39分59秒
     8: "８．\n@______",  // 40分〜44分59秒
-    9: "９．\n5月",  // 45分〜49分59秒
+    9: "９．\n5月28日",  // 45分〜49分59秒
     10: "１０．\n_Li____",  // 50分〜54分59秒
     11: "１１．\n彼は偽物"   // 55分〜59分59秒
   };
@@ -34,21 +34,21 @@ function doGet(e) {
     const now = new Date();
     const jstMinuteString = Utilities.formatDate(now, "Asia/Tokyo", "m"); // "0"〜"59" の文字列
     const minute = parseInt(jstMinuteString, 10);
-    
+
     // 5分ごとにグループ化 (0〜11 のインデックスに変換)
     const patternIndex = Math.floor(minute / 5);
-    
+
     const textContent = patterns[patternIndex] || "エラー";
-    
+
     const responseData = {
       success: true,
       hour: patternIndex, // フロントエンド互換性のためキー名は残す
       text: textContent
     };
-    
+
     return ContentService.createTextOutput(JSON.stringify(responseData))
       .setMimeType(ContentService.MimeType.JSON);
-      
+
   } catch (error) {
     const errorResponse = {
       success: false,
