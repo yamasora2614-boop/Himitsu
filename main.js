@@ -1,4 +1,4 @@
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycby0p8GsqdIZ1tKtQT1aU15CDwsvIxZm_Scbw4SgT2ByQEm9PIqlMMzBAfpcpvCr61HT/exec";
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycby0p8GsdIZ1tKtQT1aU15CDwsvIxZm_Scbw4SgT2ByQEm9PIqlMMzBAfpcpvCr61HT/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("text-container");
