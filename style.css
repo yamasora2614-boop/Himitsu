@@ -24,9 +24,12 @@ body {
   line-height: 1.6;
   text-align: center;
   word-break: break-all;
+  overflow-wrap: break-word; /* 長文が画面からはみ出さないように折り返す */
+  white-space: pre-line; /* 改行を有効にする */
   letter-spacing: 0.05em;
   opacity: 0; /* アニメーション前は非表示 */
   z-index: 10; /* 背景のグラデーションの上に確実に表示するための指定 */
+  max-width: 280px; /* スマートフォンなどの横幅に収まるよう最大幅を絞る */
 }
 
 /* フェードインなしの直接表示用クラス */
