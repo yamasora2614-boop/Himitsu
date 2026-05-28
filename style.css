@@ -1,24 +1,6 @@
 /* 
-  謎解きゲーム用 時間連動型Webサイト スタイルシート
-  デザインシステム：ミステリアス・ダーク & ゴールドアクセント（ガラスモーフィズム）
+  時間連動型Webサイト 極薄暗黒＆淡々メモ帳スタイル
 */
-
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap');
-
-:root {
-  --bg-gradient: radial-gradient(circle at center, #1a1525 0%, #0c0813 100%);
-  --panel-bg: rgba(25, 18, 38, 0.65);
-  --panel-border: rgba(212, 175, 55, 0.2);
-  --panel-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-  
-  --color-gold: #d4af37;
-  --color-gold-glow: rgba(212, 175, 55, 0.4);
-  --color-text-primary: #f0f0f5;
-  --color-text-secondary: #a09cb0;
-  
-  --font-title: 'Cinzel', serif;
-  --font-body: 'Inter', sans-serif;
-}
 
 * {
   box-sizing: border-box;
@@ -27,299 +9,68 @@
 }
 
 body {
-  font-family: var(--font-body);
-  background: var(--bg-gradient);
-  color: var(--color-text-primary);
+  background: radial-gradient(circle at center, #181818 0%, #000000 100%);
+  color: #c0c0c0;
+  font-family: 'Courier New', Courier, monospace;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
-  position: relative;
-}
-
-/* 背景に浮かぶ微細な光の粒子 */
-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.08) 0%, transparent 50%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* メインコンテナ */
-.container {
-  width: 90%;
-  max-width: 650px;
-  z-index: 2;
-  perspective: 1000px;
-}
-
-/* ガラスモーフィズムパネル */
-.glass-panel {
-  background: var(--panel-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--panel-border);
-  border-radius: 16px;
-  padding: 40px 30px;
-  box-shadow: var(--panel-shadow);
-  text-align: center;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  padding: 20px;
   overflow: hidden;
 }
 
-/* 装飾用の金枠の角 */
-.glass-panel::before,
-.glass-panel::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--color-gold);
-  pointer-events: none;
-}
-
-.glass-panel::before {
-  top: 15px;
-  left: 15px;
-  border-right: none;
-  border-bottom: none;
-}
-
-.glass-panel::after {
-  bottom: 15px;
-  right: 15px;
-  border-left: none;
-  border-top: none;
-}
-
-/* ヘッダー */
-header {
-  margin-bottom: 30px;
-}
-
-h1 {
-  font-family: var(--font-title);
-  font-size: 2.2rem;
-  color: var(--color-gold);
-  text-shadow: 0 0 10px var(--color-gold-glow);
-  letter-spacing: 3px;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* コンテンツエリア */
-#game-content {
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 取得したストーリーカードのスタイリング */
-.story-card {
-  animation: fadeIn 0.8s ease forwards;
+/* メモ帳風コンテナ */
+.notepad {
   width: 100%;
-}
-
-.time-badge {
-  display: inline-block;
-  font-family: var(--font-title);
-  font-size: 0.85rem;
-  color: var(--color-gold);
-  border: 1px solid var(--color-gold);
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  background: rgba(212, 175, 55, 0.05);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.1);
-  letter-spacing: 1px;
-}
-
-.story-card h2 {
-  font-family: var(--font-title);
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  color: var(--color-text-primary);
-  letter-spacing: 1px;
-}
-
-.story-card p {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--color-text-primary);
-  margin-bottom: 25px;
-  font-weight: 300;
-  text-align: justify;
-  text-justify: inter-character;
-}
-
-.clue {
-  background: rgba(0, 0, 0, 0.3);
-  border-left: 3px solid var(--color-gold);
-  padding: 15px;
-  border-radius: 0 8px 8px 0;
-  font-size: 0.95rem;
-  color: #e0dcf0;
-  text-align: left;
-  line-height: 1.5;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* ローディング表示 */
-.loader-container {
+  max-width: 480px;
+  background: #111111;
+  border: 1px solid #222222;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+  min-height: 250px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-.clock-loader {
-  width: 60px;
-  height: 60px;
-  border: 3px solid var(--color-text-secondary);
-  border-radius: 50%;
-  position: relative;
+/* ローディング・エラー等の淡々としたテキスト */
+.loading, .error {
+  color: #555555;
+  font-size: 14px;
+  margin: auto;
+  text-align: center;
+}
+
+/* メモ帳の中身 */
+.note-content {
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: left;
+}
+
+.note-time {
+  color: #555555;
+  font-size: 12px;
   margin-bottom: 20px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  border-bottom: 1px dashed #222222;
+  padding-bottom: 5px;
 }
 
-/* 時計の針のアニメーション */
-.clock-loader::before,
-.clock-loader::after {
-  content: '';
-  position: absolute;
-  background-color: var(--color-gold);
-  top: 50%;
-  left: 50%;
-  transform-origin: 50% 0%;
-  border-radius: 2px;
-}
-
-/* 時針 */
-.clock-loader::before {
-  width: 3px;
-  height: 18px;
-  margin-left: -1.5px;
-  margin-top: -18px;
-  animation: spin 8s linear infinite;
-  box-shadow: 0 0 5px var(--color-gold-glow);
-}
-
-/* 分針 */
-.clock-loader::after {
-  width: 2px;
-  height: 24px;
-  margin-left: -1px;
-  margin-top: -24px;
-  animation: spin 1s linear infinite;
-  box-shadow: 0 0 3px var(--color-gold-glow);
-}
-
-.loading-text {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  letter-spacing: 2px;
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
-/* エラー表示 */
-.error-card {
-  animation: fadeIn 0.5s ease forwards;
-}
-
-.error-icon {
-  font-size: 3rem;
-  color: #ff4a4a;
+.note-title {
+  color: #dddddd;
+  font-size: 16px;
   margin-bottom: 15px;
-  text-shadow: 0 0 10px rgba(255, 74, 74, 0.4);
+  font-weight: normal;
 }
 
-.error-card h2 {
-  font-family: var(--font-title);
-  color: #ff4a4a;
-  margin-bottom: 10px;
-}
-
-.error-card p {
-  color: var(--color-text-secondary);
+.note-body {
+  color: #999999;
   margin-bottom: 20px;
 }
 
-.retry-btn {
-  background: transparent;
-  border: 1px solid var(--color-gold);
-  color: var(--color-gold);
-  padding: 10px 24px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: var(--font-title);
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-}
-
-.retry-btn:hover {
-  background: var(--color-gold);
-  color: #1a1525;
-  box-shadow: 0 0 15px var(--color-gold-glow);
-}
-
-/* フッター */
-footer {
-  margin-top: 30px;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.2);
-  letter-spacing: 1px;
-}
-
-/* アニメーション定義 */
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* レスポンシブ */
-@media (max-width: 480px) {
-  .glass-panel {
-    padding: 30px 20px;
-  }
-  h1 {
-    font-size: 1.8rem;
-  }
-  .story-card h2 {
-    font-size: 1.5rem;
-  }
+.note-clue {
+  color: #666666;
+  border-top: 1px dashed #222222;
+  padding-top: 15px;
 }
