@@ -4,13 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("text-container");
 
   if (!GAS_API_URL || GAS_API_URL.includes("YOUR_GAS_WEB_APP_URL")) {
-    container.textContent = "error";
-    container.classList.add("show");
+    showError(container);
     return;
   }
 
-  // 初期読み込み時は静かに「...」を表示
-  container.textContent = "...";
+  // 初期読み込み時は静かに「…」を表示
+  container.textContent = "…";
   container.classList.add("show");
 
   fetchData(container);
@@ -32,8 +31,12 @@ async function fetchData(container) {
       throw new Error();
     }
   } catch (e) {
-    container.classList.remove("fade-in");
-    container.textContent = "error";
-    container.classList.add("show");
+    showError(container);
   }
+}
+
+function showError(container) {
+  container.classList.remove("fade-in");
+  container.innerHTML = `手掛かりの取得に失敗しました。後ほどもう一度お試しください。<br>※ガチのエラーです。この表示は、一切謎と関係ありません。<br><br>…`;
+  container.classList.add("show");
 }
