@@ -8,14 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // 初期読み込み時は静かに「…」を表示
-  container.textContent = "…";
+  // 初期読み込み表示
+  container.textContent = "手掛かり取得中…";
   container.classList.add("show");
 
-  fetchData(container);
+  // 3点リーダーが「…」→「……」→「………」と増えて戻るローディングアニメーション
+  let dotsCount = 1;
+  const loadingInterval = setInterval(() => {
+    dotsCount = (dotsCount % 3) + 1;
+    container.textContent = "手掛かり取得中" + "…".repeat(dotsCount);
+  }, 500);
+
+  fetchData(container, loadingInterval);
 });
 
-async function fetchData(container) {
+async function fetchData(container, loadingInterval) {
   try {
     const response = await fetch(GAS_API_URL);
     if (!response.ok) {
@@ -23,18 +30,19 @@ async function fetchData(container) {
     }
     const data = await response.json();
     if (data && data.success && data.text) {
-      // 読み込み完了後、下からふわっとフェードインさせる
+      // 成功したらアニメーションを停止
+      clearInterval(loadingInterval);
+
       container.classList.remove("show");
       container.textContent = data.text;
       container.classList.add("fade-in");
 
       // 現在の時間帯(0〜11)から、背景のアナログ時計風扇形マスクを設定
       if (typeof data.hour === "number") {
-        const patternIndex = data.hour; // 5分刻みのインデックス (0〜11)
-        const startAngle = patternIndex * 30; // 1パターン30度
+        const patternIndex = data.hour;
+        const startAngle = patternIndex * 30;
         const endAngle = startAngle + 30;
 
-        // 該当する角度の範囲だけ少し暗く(rgba(0,0,0,0.45))したconic-gradientを上層に重ねる
         document.body.style.background = `
           conic-gradient(from 0deg, 
             transparent 0deg ${startAngle}deg, 
@@ -48,6 +56,8 @@ async function fetchData(container) {
       throw new Error();
     }
   } catch (e) {
+    // エラー時もアニメーションを停止
+    clearInterval(loadingInterval);
     showError(container);
   }
 }
