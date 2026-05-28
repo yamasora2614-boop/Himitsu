@@ -5,8 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!GAS_API_URL || GAS_API_URL.includes("YOUR_GAS_WEB_APP_URL")) {
     container.textContent = "error";
+    container.classList.add("show");
     return;
   }
+
+  // 初期読み込み時は静かに「...」を表示
+  container.textContent = "...";
+  container.classList.add("show");
 
   fetchData(container);
 });
@@ -19,11 +24,16 @@ async function fetchData(container) {
     }
     const data = await response.json();
     if (data && data.success && data.text) {
+      // 読み込み完了後、下からふわっとフェードインさせる
+      container.classList.remove("show");
       container.textContent = data.text;
+      container.classList.add("fade-in");
     } else {
       throw new Error();
     }
   } catch (e) {
+    container.classList.remove("fade-in");
     container.textContent = "error";
+    container.classList.add("show");
   }
 }

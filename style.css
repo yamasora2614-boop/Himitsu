@@ -5,19 +5,44 @@
 }
 
 body {
-  background-color: #000000;
-  color: #ffffff;
+  /* 画面中央にかけてほんの少しだけ明るくした暗い空間 */
+  background: radial-gradient(circle at center, #222222 0%, #000000 100%);
+  color: #777777; /* 結構薄いグレー */
   font-family: sans-serif;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  overflow: hidden;
 }
 
 #text-container {
-  font-size: 20px;
-  line-height: 1.5;
+  font-size: 13px; /* 小さめの文字サイズ */
+  line-height: 1.6;
   text-align: center;
   word-break: break-all;
+  letter-spacing: 0.05em;
+  opacity: 0; /* アニメーション前は非表示 */
+}
+
+/* フェードインなしの直接表示用クラス */
+#text-container.show {
+  opacity: 1;
+}
+
+/* 下からふわっと表示させるアニメーション */
+.fade-in {
+  animation: fadeInUp 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* 10px下から */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
