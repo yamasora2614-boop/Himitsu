@@ -2,27 +2,22 @@ const GAS_API_URL = "https://script.google.com/macros/s/AKfycby0p8GsqdIZ1tKtQT1a
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("text-container");
+  const spinner = document.getElementById("spinner");
 
   if (!GAS_API_URL || GAS_API_URL.includes("YOUR_GAS_WEB_APP_URL")) {
     showError(container);
     return;
   }
 
-  // 初期読み込み表示
-  container.textContent = "手掛かり取得中…";
-  container.classList.add("show");
+  // スピナーを表示
+  if (spinner) {
+    spinner.classList.add("show");
+  }
 
-  // 3点リーダーが「…」→「……」→「………」と増えて戻るローディングアニメーション
-  let dotsCount = 1;
-  const loadingInterval = setInterval(() => {
-    dotsCount = (dotsCount % 3) + 1;
-    container.textContent = "手掛かり取得中" + "…".repeat(dotsCount);
-  }, 500);
-
-  fetchData(container, loadingInterval);
+  fetchData(container, spinner);
 });
 
-async function fetchData(container, loadingInterval) {
+async function fetchData(container, spinner) {
   try {
     const response = await fetch(GAS_API_URL);
     if (!response.ok) {
@@ -30,8 +25,10 @@ async function fetchData(container, loadingInterval) {
     }
     const data = await response.json();
     if (data && data.success && data.text) {
-      // 成功したらアニメーションを停止
-      clearInterval(loadingInterval);
+      // 成功したらスピナーを非表示
+      if (spinner) {
+        spinner.classList.remove("show");
+      }
 
       container.classList.remove("show");
       container.textContent = data.text;
@@ -56,8 +53,10 @@ async function fetchData(container, loadingInterval) {
       throw new Error();
     }
   } catch (e) {
-    // エラー時もアニメーションを停止
-    clearInterval(loadingInterval);
+    // エラー時もスピナーを非表示
+    if (spinner) {
+      spinner.classList.remove("show");
+    }
     showError(container);
   }
 }
